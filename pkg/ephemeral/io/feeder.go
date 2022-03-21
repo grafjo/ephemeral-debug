@@ -120,10 +120,10 @@ func (f *AmphoraFeeder) feedAndRead(params []string, port string, ctx *CtxConfig
 		return nil, fmt.Errorf("no output config is given, either %s, %s or %s must be defined", PlainText, SecretShare, AmphoraSecret)
 	}
 	err := f.carrier.Connect(ctx.Spdz.PlayerID, ctx.Context, "localhost", port)
-	defer f.carrier.Close()
 	if err != nil {
 		return nil, err
 	}
+	defer f.carrier.Close()
 	secrets := []amphora.SecretShare{}
 	for i := range params {
 		secret := amphora.SecretShare{

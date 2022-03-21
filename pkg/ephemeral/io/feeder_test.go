@@ -37,6 +37,7 @@ var _ = Describe("Feeder", func() {
 		f = AmphoraFeeder{
 			conf: &SPDZEngineTypedConfig{
 				AmphoraClient: &FakeAmphoraClient{},
+				PlayerID:      0,
 			},
 			carrier: carrier,
 			logger:  zap.NewNop().Sugar(),
