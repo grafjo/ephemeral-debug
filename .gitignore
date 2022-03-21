@@ -8,9 +8,13 @@ target/
 
 ### Go
 cover.*
+/vendor/*
 
 ### Helm
 /charts/*.tgz
 
 ### Ko
 /_docker_build_files/*
+vendor
+pkg/mod/
+pkg/sumdb/

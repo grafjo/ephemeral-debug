@@ -37,6 +37,7 @@ var _ = Describe("Feeder", func() {
 		f = AmphoraFeeder{
 			conf: &SPDZEngineTypedConfig{
 				AmphoraClient: &FakeAmphoraClient{},
+				PlayerID:      0,
 			},
 			carrier: carrier,
 			logger:  zap.NewNop().Sugar(),
@@ -211,7 +212,7 @@ type FakeCarrier struct {
 	isBulk bool
 }
 
-func (f *FakeCarrier) Connect(context.Context, string, string) error {
+func (f *FakeCarrier) Connect(int32, context.Context, string, string) error {
 	return nil
 }
 
@@ -232,7 +233,7 @@ type BrokenConnectFakeCarrier struct {
 	isBulk bool
 }
 
-func (f *BrokenConnectFakeCarrier) Connect(context.Context, string, string) error {
+func (f *BrokenConnectFakeCarrier) Connect(int32, context.Context, string, string) error {
 	return errors.New("carrier connect error")
 }
 
@@ -253,7 +254,7 @@ type BrokenSendFakeCarrier struct {
 	isBulk bool
 }
 
-func (f *BrokenSendFakeCarrier) Connect(context.Context, string, string) error {
+func (f *BrokenSendFakeCarrier) Connect(int32, context.Context, string, string) error {
 	return nil
 }
 

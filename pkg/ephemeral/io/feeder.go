@@ -35,6 +35,7 @@ func NewAmphoraFeeder(l *zap.SugaredLogger, conf *SPDZEngineTypedConfig) *Amphor
 		Packer: &SPDZPacker{
 			MaxBulkSize: conf.MaxBulkSize,
 		},
+		TlsConnector: network.NewTlsConnector(),
 	}
 	return &AmphoraFeeder{
 		logger:  l,
@@ -118,11 +119,11 @@ func (f *AmphoraFeeder) feedAndRead(params []string, port string, ctx *CtxConfig
 	default:
 		return nil, fmt.Errorf("no output config is given, either %s, %s or %s must be defined", PlainText, SecretShare, AmphoraSecret)
 	}
-	err := f.carrier.Connect(ctx.Context, "localhost", port)
-	defer f.carrier.Close()
+	err := f.carrier.Connect(ctx.Spdz.PlayerID, ctx.Context, "localhost", port)
 	if err != nil {
 		return nil, err
 	}
+	defer f.carrier.Close()
 	secrets := []amphora.SecretShare{}
 	for i := range params {
 		secret := amphora.SecretShare{
